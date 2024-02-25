@@ -73,31 +73,22 @@ public class Main {
                         System.out.println("해당 번호로 예매된 좌석이 없습니다.");
                     }
                     break;
-////              예매 취소하기
-//                case "3":
-//                    System.out.println("예매번호를 입력해주세요.");
-//                    input = sc.next();
-//
-//                    // 해당 예매번호를 키로 가지는 값이 있는 지 확인
-//                    int reservedCode = Integer.parseInt(input);
-//                    if (reservedSeatInformation.containsKey(reservedCode)) {
-//                        System.out.println("고객님이 예매하신 좌석은" + reservedSeatInformation.get(reservedCode) + "입니다.");
-//                        System.out.println("예매를 취소하시겠습니까?");
-//                        System.out.println("네(1), 아니오(2) 중 하나를 입력해주세요.");
-//                        switch (sc.next()) {
-//                            case "1":
-//                                String[] deleteSeatIndex = reservedSeatInformation.get(reservedCode).split("-");
-//                                reservedSeatInformation.remove(reservedCode);
-//                                seats[Integer.parseInt(deleteSeatIndex[0]) - 1][Integer.parseInt(deleteSeatIndex[1]) - 1] = false;
-//                                System.out.println("예매가 취소되었습니다. 감사합니다.");
-//                                break;
-//                            case "2":
-//                                break;
-//                        }
-//                    } else {
-//                        System.out.println("해당 번호로 예매된 좌석이 없습니다.");
-//                    }
-//                    break;
+//              예매 취소하기
+                case "3":
+                    System.out.println("예매번호를 입력해주세요.");
+                    input = sc.next();
+
+                    // 해당 예매번호를 키로 가지는 값이 있는 지 확인
+                    key = Integer.parseInt(input);
+                    if (reservation.containsKey(key)) {
+                        reservation.printReservedSeat(key);
+                        System.out.println("예매를 취소하시겠습니까?");
+                        System.out.println("네(1), 아니오(2) 중 하나를 입력해주세요.");
+                        reservation.cancle(key, sc.next()); // 예매 취소
+                    } else {
+                        System.out.println("해당 번호로 예매된 좌석이 없습니다.");
+                    }
+                    break;
                 case "4":
                     System.out.println("프로그램 종료");
                     return;

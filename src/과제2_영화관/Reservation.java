@@ -55,6 +55,21 @@ public class Reservation {
         System.out.println("예매한 좌석 번호:" + "[" + (row + 1) + "-" + (col + 1) + "] / 예매번호:[" + reservedCode + "]");
     }
 
+    /**
+     * 예약을 취소하는 메서드
+     */
+    public void cancle(int key, String option){
+        switch (option) {
+            case "1":
+                String[] deleteSeatIndex = reservedSeatInformation.get(key).split("-"); // 값에서 idx 가져오기
+                reservedSeatInformation.remove(key);
+                seats[Integer.parseInt(deleteSeatIndex[0]) - 1][Integer.parseInt(deleteSeatIndex[1]) - 1] = false;
+                System.out.println("예매가 취소되었습니다. 감사합니다.");
+                break;
+            case "2":
+                break;
+        }
+    }
 
     /**
      * 현재 좌석 상태들을 출력하는 메서드
