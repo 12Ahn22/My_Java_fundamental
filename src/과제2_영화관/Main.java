@@ -6,7 +6,13 @@ public class Main {
     public static void main(String[] args) {
         // 외부에서 입력받기 위한 변수
         Scanner sc = new Scanner(System.in);
-        while(true){
+
+        // 좌석 예약 여부 변수
+        final int ROW = 4;
+        final int COL = 5;
+        boolean[][] seats = new boolean[COL][ROW];
+
+        while (true) {
             // UI 프린트
             System.out.println("**********************************");
             System.out.println("**********영화 예매 시스템**********");
@@ -16,10 +22,11 @@ public class Main {
             System.out.println("3. 예매취소\n");
             System.out.println("4. 프로그램 종료\n");
             System.out.print("> ");
-            
-            switch (sc.next()){
+
+            switch (sc.next()) {
                 case "1":
                     System.out.println("1");
+                    printSeatStatus(seats);
                     break;
                 case "2":
                     System.out.println("2");
@@ -35,4 +42,23 @@ public class Main {
             }
         }
     }
+    
+    /*
+    * 현재 좌석 상태들을 출력하는 메서드
+    * */
+    public static void printSeatStatus (boolean[][] seats){
+        System.out.println("*********좌석 현황*********");
+        for (int i = 0; i < seats.length; i++) {
+            for (int j = 0; j < seats[0].length; j++) {
+                if(!seats[i][j]){
+                    System.out.print("[" + (i + 1) + "-" + (j + 1) + "]");
+                }else{
+                    System.out.print("[예매]");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println("-------------------------");
+    }
 }
+
