@@ -7,7 +7,7 @@ public class Main {
         // 외부에서 입력받기 위한 변수
         Scanner sc = new Scanner(System.in);
 
-        Reservation reservation = new Reservation(); // 좌석 예약 정보를 가진 객체 reservation
+        Reservation reservation = new Reservation(5,4); // 좌석 예약 정보를 가진 객체 reservation
 
         // 예약 프로그램 실행
         ReservationUI reservationUI = new ReservationUI(reservation);

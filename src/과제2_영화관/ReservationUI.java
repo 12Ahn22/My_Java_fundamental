@@ -121,8 +121,8 @@ public class ReservationUI {
      */
     public void printSeatStatus() {
         System.out.println("*********좌석 현황*********");
-        for (int i = 0; i < reservationService.getROW(); i++) {
-            for (int j = 0; j < reservationService.getCOL(); j++) {
+        for (int i = 0; i < reservationService.getRow(); i++) {
+            for (int j = 0; j < reservationService.getCol(); j++) {
                 if (reservationService.isReservation(i, j)) {
                     System.out.print("[" + (i + 1) + "-" + (j + 1) + "]"); // 최적화하기
                 } else {

@@ -17,7 +17,7 @@ public interface ReservationService {
 
     int generateRandom8Digit();
 
-    int getROW();
+    int getRow();
 
-    int getCOL();
+    int getCol();
 }

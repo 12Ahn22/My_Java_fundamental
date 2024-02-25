@@ -11,15 +11,20 @@ import java.util.Random;
 *   UI 관련 부분은 ReservationUI에서 실행하도록 하고 싶었다.
 * */
 public class Reservation implements ReservationService {
-
     // 좌석 크기
     @Getter
-    private final int ROW = 4;
+    private int row;
     @Getter
-    private final int COL = 5;
-    private boolean[][] seats = new boolean[ROW][COL]; // 좌석에 따른 예약 여부 배열
+    private int col;
+    private boolean[][] seats; // 좌석에 따른 예약 여부 배열
 
     private Map<Integer, String> reservedSeatInformation = new HashMap<>(); // 예약 번호를 key로 사용하는 예약 정보 map
+
+    public Reservation(int row, int col){
+        this.row = row;
+        this.col = col;
+        this.seats = new boolean[row][col];
+    }
 
     /**
      * 해당 좌석이 예약 가능한 여부 확인 메서드
