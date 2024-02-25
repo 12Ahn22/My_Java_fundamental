@@ -88,9 +88,22 @@ public class Reservation {
     }
 
     /**
+     * 예매 번호 중복성 체크해 중복이 아닌 키를 반환하는 메서드
+     */
+    public int creatReservationCode(){
+        int key = generateRandom8Digit();
+        // 만약 생성한 난수가 이미 reservedSeatInformation에 key로 존재한다면,
+        // 다시 생성한다.
+        while(reservedSeatInformation.containsKey(key)){
+            key = generateRandom8Digit();
+        }
+        return key;
+    }
+
+    /**
      * 예매 번호 생성 메서드
      */
-    public static int creatReservationCode() {
+    public static int generateRandom8Digit() {
         Random random = new Random();
         // 항상 8자리의 랜덤 난수를 생성하기 위한 제한값
         final int MIN = 10000000;
