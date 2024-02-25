@@ -10,10 +10,7 @@ public class Main {
         // 좌석 예약 여부 변수
         final int ROW = 4;
         final int COL = 5;
-        boolean[][] seats = new boolean[ROW][COL];
-
-        // 예매 번호 - 예매좌석 정보 변수
-        Map<Integer, String> reservedSeatInformation = new HashMap<>();
+        Reservation reservation = new Reservation(ROW, COL);
 
         while (true) {
             // UI 프린트
@@ -30,27 +27,24 @@ public class Main {
 //                영화 예매하기
                 case "1":
                     System.out.println("1");
-                    printSeatStatus(seats);
+                    reservation.printSeatStatus(); // 예매 현황 좌석 print
                     System.out.println("좌석을 선택해주세요. 예)1-1");
                     System.out.println("이미 예매된 좌석은 \"예매\"라고 표시됩니다.");
 
                     String input = sc.next();
+                    
                     // 예매 가능 여부 체크 하기
-                    System.out.println(input);
-                    String[] seatIndex = input.split("-");
-                    boolean isSeat = seats[Integer.parseInt(seatIndex[0]) - 1][Integer.parseInt(seatIndex[1]) - 1];
+                    String[] seatIndex = input.split("-"); // 입력값에서 idx를 가져오기
+                    int rowIndex = Integer.parseInt(seatIndex[0]) - 1;
+                    int colIndex = Integer.parseInt(seatIndex[1]) - 1;
                     // 예매 가능
-                    if (!isSeat) {
+                    if (reservation.isReservation(rowIndex, colIndex)) {
                         System.out.println("예매가 가능합니다. 예매하시겠습니까?");
                         System.out.println("네(1), 아니오(2), 초기화면(0)중 하나를 입력해주세요");
                         switch (sc.next()) {
                             case "1":
                                 // 예매 완료 시, 좌석 번호와 예매번호 출력하기(랜덤수)
-                                int reservedCode = creatReservationCode();
-                                reservedSeatInformation.put(reservedCode, seatIndex[0] + "-" + seatIndex[1]); // 랜덤 난수를 키값으로 예약된 seat 정보를 출력
-                                seats[Integer.parseInt(seatIndex[0]) - 1][Integer.parseInt(seatIndex[1]) - 1] = true; // 화면을 위한 예약 처리
-                                System.out.println("예매가 완료되었습니다.");
-                                System.out.println("예매한 좌석 번호:" + "[" + seatIndex[0] + "-" + seatIndex[1] + "] / 예매번호:[" + reservedCode + "]");
+                                reservation.reserve(rowIndex, colIndex);
                                 break;
                             case "2":
                             case "0":
@@ -61,48 +55,48 @@ public class Main {
                     }
                     System.out.println("감사합니다.");
                     break;
-//              예매 조회하기
-                case "2":
-                    if (reservedSeatInformation.isEmpty()) {
-                        System.out.println("현재 예매된 좌석이 없습니다.");
-                        break;
-                    }
-
-                    System.out.println("예매번호를 입력해주세요.");
-                    input = sc.next();
-
-                    // 해당 예매번호를 키로 가지는 값이 있는 지 확인
-                    if (reservedSeatInformation.containsKey(Integer.parseInt(input))) {
-                        System.out.println("고객님이 예매하신 좌석은" + reservedSeatInformation.get(Integer.parseInt(input)) + "입니다.");
-                    } else {
-                        System.out.println("해당 번호로 예매된 좌석이 없습니다.");
-                    }
-                    break;
-//              예매 취소하기
-                case "3":
-                    System.out.println("예매번호를 입력해주세요.");
-                    input = sc.next();
-
-                    // 해당 예매번호를 키로 가지는 값이 있는 지 확인
-                    int reservedCode = Integer.parseInt(input);
-                    if (reservedSeatInformation.containsKey(reservedCode)) {
-                        System.out.println("고객님이 예매하신 좌석은" + reservedSeatInformation.get(reservedCode) + "입니다.");
-                        System.out.println("예매를 취소하시겠습니까?");
-                        System.out.println("네(1), 아니오(2) 중 하나를 입력해주세요.");
-                        switch (sc.next()) {
-                            case "1":
-                                String[] deleteSeatIndex = reservedSeatInformation.get(reservedCode).split("-");
-                                reservedSeatInformation.remove(reservedCode);
-                                seats[Integer.parseInt(deleteSeatIndex[0]) - 1][Integer.parseInt(deleteSeatIndex[1]) - 1] = false;
-                                System.out.println("예매가 취소되었습니다. 감사합니다.");
-                                break;
-                            case "2":
-                                break;
-                        }
-                    } else {
-                        System.out.println("해당 번호로 예매된 좌석이 없습니다.");
-                    }
-                    break;
+////              예매 조회하기
+//                case "2":
+//                    if (reservedSeatInformation.isEmpty()) {
+//                        System.out.println("현재 예매된 좌석이 없습니다.");
+//                        break;
+//                    }
+//
+//                    System.out.println("예매번호를 입력해주세요.");
+//                    input = sc.next();
+//
+//                    // 해당 예매번호를 키로 가지는 값이 있는 지 확인
+//                    if (reservedSeatInformation.containsKey(Integer.parseInt(input))) {
+//                        System.out.println("고객님이 예매하신 좌석은" + reservedSeatInformation.get(Integer.parseInt(input)) + "입니다.");
+//                    } else {
+//                        System.out.println("해당 번호로 예매된 좌석이 없습니다.");
+//                    }
+//                    break;
+////              예매 취소하기
+//                case "3":
+//                    System.out.println("예매번호를 입력해주세요.");
+//                    input = sc.next();
+//
+//                    // 해당 예매번호를 키로 가지는 값이 있는 지 확인
+//                    int reservedCode = Integer.parseInt(input);
+//                    if (reservedSeatInformation.containsKey(reservedCode)) {
+//                        System.out.println("고객님이 예매하신 좌석은" + reservedSeatInformation.get(reservedCode) + "입니다.");
+//                        System.out.println("예매를 취소하시겠습니까?");
+//                        System.out.println("네(1), 아니오(2) 중 하나를 입력해주세요.");
+//                        switch (sc.next()) {
+//                            case "1":
+//                                String[] deleteSeatIndex = reservedSeatInformation.get(reservedCode).split("-");
+//                                reservedSeatInformation.remove(reservedCode);
+//                                seats[Integer.parseInt(deleteSeatIndex[0]) - 1][Integer.parseInt(deleteSeatIndex[1]) - 1] = false;
+//                                System.out.println("예매가 취소되었습니다. 감사합니다.");
+//                                break;
+//                            case "2":
+//                                break;
+//                        }
+//                    } else {
+//                        System.out.println("해당 번호로 예매된 좌석이 없습니다.");
+//                    }
+//                    break;
                 case "4":
                     System.out.println("프로그램 종료");
                     return;
@@ -111,36 +105,5 @@ public class Main {
             }
         }
     }
-
-    /**
-     * 현재 좌석 상태들을 출력하는 메서드
-     */
-    public static void printSeatStatus(boolean[][] seats) {
-        System.out.println("*********좌석 현황*********");
-        for (int i = 0; i < seats.length; i++) {
-            for (int j = 0; j < seats[0].length; j++) {
-                if (!seats[i][j]) {
-                    System.out.print("[" + (i + 1) + "-" + (j + 1) + "]"); // 최적화하기
-                } else {
-                    System.out.print("[예매]");
-                }
-            }
-            System.out.println();
-        }
-        System.out.println("-------------------------");
-    }
-
-    /**
-     * 예매 번호 생성 메서드
-     */
-    public static int creatReservationCode() {
-        Random random = new Random();
-        // 항상 8자리의 랜덤 난수를 생성하기 위한 제한값
-        final int MIN = 10000000;
-        final int MAX = 99999999;
-        return random.nextInt(MAX - MIN + 1) + MIN;
-    }
-
-    ;
 }
 
