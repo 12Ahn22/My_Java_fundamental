@@ -1,51 +1,49 @@
 package 과제2_영화관;
 
-import lombok.Getter;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
 public class Reservation {
-    @Getter
-    private boolean[][] seats;
-    private Map<Integer, String> reservedSeatInformation = new HashMap<>();
+    private boolean[][] seats; // 화면 UI를 위한 예약 여부 배열
+
+    private Map<Integer, String> reservedSeatInformation = new HashMap<>(); // 예약 번호를 key로 사용하는 예약 정보 map
 
     public Reservation(int row, int col) {
         this.seats = new boolean[row][col];
     }
 
-    /*
-     *  예약 가능 여부 확인 메서드
-     * */
+    /**
+     * 해당 좌석이 예약 가능한 여부 확인 메서드
+     */
     public boolean isReservation(int row, int col) {
         return !seats[row][col];
     }
 
     /**
-     * 예매가 되었는지 안되었는지 확인하는 메서드
+     * 예매 목록이 비어있는 지 확인하는 메서드
      */
     public boolean isEmpty() {
         return reservedSeatInformation.isEmpty();
     }
 
     /**
-     * 해당 키가 예매 번호 목록에 있는지 확인하는 메서드
+     * 해당 예매번호(키)가 예매 번호 목록에 있는지 확인하는 메서드
      */
     public boolean containsKey(int key) {
         return reservedSeatInformation.containsKey(key);
     }
 
     /**
-     * 해당 예약 키로 예약된 좌석명 출력 메서드
+     * 해당 예약 번호(키)로 예약된 좌석명 출력 메서드
      */
     public void printReservedSeat(int key) {
         System.out.println("고객님이 예매하신 좌석은" + reservedSeatInformation.get(key) + "입니다.");
     }
 
-    /*
-     *  좌석을 예약 하는 메서드
-     * */
+    /**
+     * 좌석 예약 메서드 
+     */
     public void reserve(int row, int col) {
         // 예매 완료 시, 좌석 번호와 예매번호 출력하기(랜덤수)
         int reservedCode = creatReservationCode();
