@@ -63,7 +63,20 @@ public class Main {
                     break;
 //              예매 조회하기
                 case "2":
+                    if (reservedSeatInformation.isEmpty()) {
+                        System.out.println("현재 예매된 좌석이 없습니다.");
+                        break;
+                    }
+
                     System.out.println("예매번호를 입력해주세요.");
+                    input = sc.next();
+
+                    // 해당 예매번호를 키로 가지는 값이 있는 지 확인
+                    if (reservedSeatInformation.containsKey(Integer.parseInt(input))) {
+                        System.out.println("고객님이 예매하신 좌석은" + reservedSeatInformation.get(Integer.parseInt(input)) + "입니다.");
+                    }else{
+                        System.out.println("해당 번호로 예매된 좌석이 없습니다.");
+                    }
                     break;
 //              예매 취소하기
                 case "3":
