@@ -1,17 +1,25 @@
 package 과제2_영화관;
 
+import lombok.Getter;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+/*
+*  해당 클래스에서는 예매에 대한 정보와 로직을 저장하고 다루고 싶었다.
+*   UI 관련 부분은 ReservationUI에서 실행하도록 하고 싶었다.
+* */
 public class Reservation {
-    private boolean[][] seats; // 화면 UI를 위한 예약 여부 배열
+
+    // 좌석 크기
+    @Getter
+    private final int ROW = 4;
+    @Getter
+    private final int COL = 5;
+    private boolean[][] seats = new boolean[ROW][COL]; // 좌석에 따른 예약 여부 배열
 
     private Map<Integer, String> reservedSeatInformation = new HashMap<>(); // 예약 번호를 key로 사용하는 예약 정보 map
-
-    public Reservation(int row, int col) {
-        this.seats = new boolean[row][col];
-    }
 
     /**
      * 해당 좌석이 예약 가능한 여부 확인 메서드
@@ -35,34 +43,33 @@ public class Reservation {
     }
 
     /**
-     * 해당 예약 번호(키)로 예약된 좌석명 출력 메서드
+     * 해당 예매번호(키)로 예매된 값을 반환하는 메서드
      */
-    public void printReservedSeat(int key) {
-        System.out.println("고객님이 예매하신 좌석은" + reservedSeatInformation.get(key) + "입니다.");
+    public String getReservedSeat(int key){
+        return reservedSeatInformation.get(key);
     }
 
     /**
-     * 좌석 예약 메서드 
+     * 좌석 예약 메서드
      */
-    public void reserve(int row, int col) {
+    public int reserve(int row, int col) {
         // 예매 완료 시, 좌석 번호와 예매번호 출력하기(랜덤수)
         int reservedCode = creatReservationCode();
         reservedSeatInformation.put(reservedCode, (row + 1) + "-" + (col + 1));
         seats[row][col] = true; // 화면을 위한 예약 처리
-        System.out.println("예매가 완료되었습니다.");
-        System.out.println("예매한 좌석 번호:" + "[" + (row + 1) + "-" + (col + 1) + "] / 예매번호:[" + reservedCode + "]");
+        // 예매 번호를 반환
+        return reservedCode;
     }
 
     /**
      * 예약을 취소하는 메서드
      */
-    public void cancle(int key, String option){
+    public void cancle(int key, String option) {
         switch (option) {
             case "1":
                 String[] deleteSeatIndex = reservedSeatInformation.get(key).split("-"); // 값에서 idx 가져오기
                 reservedSeatInformation.remove(key);
                 seats[Integer.parseInt(deleteSeatIndex[0]) - 1][Integer.parseInt(deleteSeatIndex[1]) - 1] = false;
-                System.out.println("예매가 취소되었습니다. 감사합니다.");
                 break;
             case "2":
                 break;
@@ -70,31 +77,13 @@ public class Reservation {
     }
 
     /**
-     * 현재 좌석 상태들을 출력하는 메서드
-     */
-    public void printSeatStatus() {
-        System.out.println("*********좌석 현황*********");
-        for (int i = 0; i < seats.length; i++) {
-            for (int j = 0; j < seats[0].length; j++) {
-                if (!seats[i][j]) {
-                    System.out.print("[" + (i + 1) + "-" + (j + 1) + "]"); // 최적화하기
-                } else {
-                    System.out.print("[예매]");
-                }
-            }
-            System.out.println();
-        }
-        System.out.println("-------------------------");
-    }
-
-    /**
      * 예매 번호 중복성 체크해 중복이 아닌 키를 반환하는 메서드
      */
-    public int creatReservationCode(){
+    public int creatReservationCode() {
         int key = generateRandom8Digit();
         // 만약 생성한 난수가 이미 reservedSeatInformation에 key로 존재한다면,
         // 다시 생성한다.
-        while(reservedSeatInformation.containsKey(key)){
+        while (reservedSeatInformation.containsKey(key)) {
             key = generateRandom8Digit();
         }
         return key;
