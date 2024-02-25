@@ -7,14 +7,14 @@ public class ReservationUI {
 
     private Scanner sc;
 
-    public ReservationUI(Reservation reservation){
+    public ReservationUI(Reservation reservation) {
         this.reservation = reservation;
     }
 
     /**
      * 영화 예매 프로그램을 실행하는 메서드
      */
-    public void run(){
+    public void run() {
         sc = new Scanner(System.in);
 
         while (true) {
@@ -46,9 +46,10 @@ public class ReservationUI {
 
     /**
      * 영화 예매하는 메서드
+     *
      * @param sc
      */
-    private void reserve(){
+    private void reserve() {
         printSeatStatus(); // 예매 현황 좌석 print
         System.out.println("좌석을 선택해주세요. 예)1-1");
         System.out.println("이미 예매된 좌석은 \"예매\"라고 표시됩니다.");
@@ -61,16 +62,11 @@ public class ReservationUI {
         if (reservation.isReservation(rowIndex, colIndex)) {
             System.out.println("예매가 가능합니다. 예매하시겠습니까?");
             System.out.println("네(1), 아니오(2), 초기화면(0)중 하나를 입력해주세요");
-            switch (sc.next()) {
-                case "1":
-                    // 예매 완료 시, 좌석 번호와 예매번호 출력하기(랜덤수)
-                    int reservedCode = reservation.reserve(rowIndex, colIndex);
-                    System.out.println("예매가 완료되었습니다.");
-                    System.out.println("예매한 좌석 번호:" + reservation.getReservedSeat(reservedCode) + "] / 예매번호:[" + reservedCode + "]");
-                    break;
-                case "2":
-                case "0":
-                    break;
+
+            Integer reservedCode = reservation.reserve(rowIndex, colIndex, sc.next()); // 예매
+            if (reservedCode != null) {
+                System.out.println("예매가 완료되었습니다.");
+                System.out.println("예매한 좌석 번호:" + reservation.getReservedSeat(reservedCode) + "] / 예매번호:[" + reservedCode + "]");
             }
         } else {
             System.out.println("예매가 불가능합니다.");
@@ -80,9 +76,10 @@ public class ReservationUI {
 
     /**
      * 예매 번호로 좌석을 확인하는 메서드
+     *
      * @param sc
      */
-    private void find(){
+    private void find() {
         if (reservation.isEmpty()) {
             System.out.println("현재 예매된 좌석이 없습니다.");
             return;
@@ -103,7 +100,7 @@ public class ReservationUI {
      * @param sc
      */
 
-    private void cancel(){
+    private void cancel() {
         System.out.println("예매번호를 입력해주세요.");
 
         // 해당 예매번호를 키로 가지는 값이 있는 지 확인
@@ -126,7 +123,7 @@ public class ReservationUI {
         System.out.println("*********좌석 현황*********");
         for (int i = 0; i < reservation.getROW(); i++) {
             for (int j = 0; j < reservation.getCOL(); j++) {
-                if (reservation.isReservation(i,j)) {
+                if (reservation.isReservation(i, j)) {
                     System.out.print("[" + (i + 1) + "-" + (j + 1) + "]"); // 최적화하기
                 } else {
                     System.out.print("[예매]");
@@ -141,10 +138,10 @@ public class ReservationUI {
      * 해당 예약 번호(키)로 예약된 좌석명 출력 메서드
      */
     public void printReservedSeat(int key) {
-        System.out.println("고객님이 예매하신 좌석은 " + reservation.getReservedSeat(key)  + "입니다.");
+        System.out.println("고객님이 예매하신 좌석은 " + reservation.getReservedSeat(key) + "입니다.");
     }
 
-    private static void printMainOptionMessage(){
+    private static void printMainOptionMessage() {
         System.out.println("**********************************");
         System.out.println("**********영화 예매 시스템**********");
         System.out.println("**********************************");

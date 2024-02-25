@@ -52,13 +52,19 @@ public class Reservation {
     /**
      * 좌석 예약 메서드
      */
-    public int reserve(int row, int col) {
-        // 예매 완료 시, 좌석 번호와 예매번호 출력하기(랜덤수)
-        int reservedCode = creatReservationCode();
-        reservedSeatInformation.put(reservedCode, (row + 1) + "-" + (col + 1));
-        seats[row][col] = true; // 화면을 위한 예약 처리
-        // 예매 번호를 반환
-        return reservedCode;
+    public Integer reserve(int row, int col, String option){
+        switch (option) {
+            case "1":
+                // 예매 완료 시, 좌석 번호와 예매번호 출력하기(랜덤수)
+                int reservedCode = creatReservationCode();
+                reservedSeatInformation.put(reservedCode, (row + 1) + "-" + (col + 1));
+                seats[row][col] = true; // 화면을 위한 예약 처리
+                return reservedCode;
+            case "2":
+            case "0":
+            default:
+                return null;
+        }
     }
 
     /**
