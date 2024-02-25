@@ -23,15 +23,15 @@ public class ReservationUI {
             switch (sc.next()) {
 //                영화 예매하기
                 case "1":
-                    reserve();
+                    reserveSeat();
                     break;
 //              예매 조회하기
                 case "2":
-                    find();
+                    viewReservation();
                     break;
 //              예매 취소하기
                 case "3":
-                    cancel();
+                    cancelReservation();
                     break;
                 case "4":
                     System.out.println("프로그램 종료");
@@ -48,7 +48,7 @@ public class ReservationUI {
      *
      * @param sc
      */
-    private void reserve() {
+    private void reserveSeat() {
         printSeatStatus(); // 예매 현황 좌석 print
         System.out.println("좌석을 선택해주세요. 예)1-1");
         System.out.println("이미 예매된 좌석은 \"예매\"라고 표시됩니다.");
@@ -78,7 +78,7 @@ public class ReservationUI {
      *
      * @param sc
      */
-    private void find() {
+    private void viewReservation() {
         if (reservationService.isEmpty()) {
             System.out.println("현재 예매된 좌석이 없습니다.");
             return;
@@ -99,7 +99,7 @@ public class ReservationUI {
      * @param sc
      */
 
-    private void cancel() {
+    private void cancelReservation() {
         System.out.println("예매번호를 입력해주세요.");
 
         // 해당 예매번호를 키로 가지는 값이 있는 지 확인
