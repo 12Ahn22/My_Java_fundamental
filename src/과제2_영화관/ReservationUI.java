@@ -9,14 +9,13 @@ public class ReservationUI {
 
     public ReservationUI(ReservationService reservationService) {
         this.reservationService = reservationService;
+        this.sc = new Scanner(System.in);
     }
 
     /**
      * 영화 예매 프로그램을 실행하는 메서드
      */
     public void run() {
-        sc = new Scanner(System.in);
-
         while (true) {
             // 기본 UI 프린트
             printMainOptionMessage();
