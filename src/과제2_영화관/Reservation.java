@@ -22,16 +22,37 @@ public class Reservation {
         return !seats[row][col];
     }
 
+    /**
+     * 예매가 되었는지 안되었는지 확인하는 메서드
+     */
+    public boolean isEmpty() {
+        return reservedSeatInformation.isEmpty();
+    }
+
+    /**
+     * 해당 키가 예매 번호 목록에 있는지 확인하는 메서드
+     */
+    public boolean containsKey(int key) {
+        return reservedSeatInformation.containsKey(key);
+    }
+
+    /**
+     * 해당 예약 키로 예약된 좌석명 출력 메서드
+     */
+    public void printReservedSeat(int key) {
+        System.out.println("고객님이 예매하신 좌석은" + reservedSeatInformation.get(key) + "입니다.");
+    }
+
     /*
      *  좌석을 예약 하는 메서드
      * */
     public void reserve(int row, int col) {
         // 예매 완료 시, 좌석 번호와 예매번호 출력하기(랜덤수)
         int reservedCode = creatReservationCode();
-        reservedSeatInformation.put(reservedCode, row + "-" + col);
+        reservedSeatInformation.put(reservedCode, (row + 1) + "-" + (col + 1));
         seats[row][col] = true; // 화면을 위한 예약 처리
         System.out.println("예매가 완료되었습니다.");
-        System.out.println("예매한 좌석 번호:" + "[" + row + "-" + col + "] / 예매번호:[" + reservedCode + "]");
+        System.out.println("예매한 좌석 번호:" + "[" + (row + 1) + "-" + (col + 1) + "] / 예매번호:[" + reservedCode + "]");
     }
 
 
