@@ -10,7 +10,7 @@ import java.util.Random;
 *  해당 클래스에서는 예매에 대한 정보와 로직을 저장하고 다루고 싶었다.
 *   UI 관련 부분은 ReservationUI에서 실행하도록 하고 싶었다.
 * */
-public class Reservation {
+public class Reservation implements ReservationService {
 
     // 좌석 크기
     @Getter
@@ -98,7 +98,7 @@ public class Reservation {
     /**
      * 예매 번호 생성 메서드
      */
-    public static int generateRandom8Digit() {
+    public int generateRandom8Digit() {
         Random random = new Random();
         // 항상 8자리의 랜덤 난수를 생성하기 위한 제한값
         final int MIN = 10000000;

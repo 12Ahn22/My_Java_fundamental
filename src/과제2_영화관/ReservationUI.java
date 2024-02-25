@@ -3,12 +3,12 @@ package 과제2_영화관;
 import java.util.Scanner;
 
 public class ReservationUI {
-    private final Reservation reservation;
+    private final ReservationService reservationService;
 
     private Scanner sc;
 
-    public ReservationUI(Reservation reservation) {
-        this.reservation = reservation;
+    public ReservationUI(ReservationService reservationService) {
+        this.reservationService = reservationService;
     }
 
     /**
@@ -59,14 +59,14 @@ public class ReservationUI {
         int rowIndex = Integer.parseInt(seatIndex[0]) - 1;
         int colIndex = Integer.parseInt(seatIndex[1]) - 1;
         // 예매 가능
-        if (reservation.isReservation(rowIndex, colIndex)) {
+        if (reservationService.isReservation(rowIndex, colIndex)) {
             System.out.println("예매가 가능합니다. 예매하시겠습니까?");
             System.out.println("네(1), 아니오(2), 초기화면(0)중 하나를 입력해주세요");
 
-            Integer reservedCode = reservation.reserve(rowIndex, colIndex, sc.next()); // 예매
+            Integer reservedCode = reservationService.reserve(rowIndex, colIndex, sc.next()); // 예매
             if (reservedCode != null) {
                 System.out.println("예매가 완료되었습니다.");
-                System.out.println("예매한 좌석 번호:" + reservation.getReservedSeat(reservedCode) + "] / 예매번호:[" + reservedCode + "]");
+                System.out.println("예매한 좌석 번호:" + reservationService.getReservedSeat(reservedCode) + "] / 예매번호:[" + reservedCode + "]");
             }
         } else {
             System.out.println("예매가 불가능합니다.");
@@ -80,7 +80,7 @@ public class ReservationUI {
      * @param sc
      */
     private void find() {
-        if (reservation.isEmpty()) {
+        if (reservationService.isEmpty()) {
             System.out.println("현재 예매된 좌석이 없습니다.");
             return;
         }
@@ -89,7 +89,7 @@ public class ReservationUI {
 
         // 해당 예매번호를 키로 가지는 값이 있는 지 확인
         int key = Integer.parseInt(sc.next());
-        if (reservation.containsKey(key)) {
+        if (reservationService.containsKey(key)) {
             printReservedSeat(key); // 예약된 좌석 정보 print
         } else {
             System.out.println("해당 번호로 예매된 좌석이 없습니다.");
@@ -105,11 +105,11 @@ public class ReservationUI {
 
         // 해당 예매번호를 키로 가지는 값이 있는 지 확인
         int key = Integer.parseInt(sc.next());
-        if (reservation.containsKey(key)) {
+        if (reservationService.containsKey(key)) {
             printReservedSeat(key);
             System.out.println("예매를 취소하시겠습니까?");
             System.out.println("네(1), 아니오(2) 중 하나를 입력해주세요.");
-            reservation.cancle(key, sc.next()); // 예매 취소
+            reservationService.cancle(key, sc.next()); // 예매 취소
             System.out.println("예매가 취소되었습니다. 감사합니다.");
         } else {
             System.out.println("해당 번호로 예매된 좌석이 없습니다.");
@@ -121,9 +121,9 @@ public class ReservationUI {
      */
     public void printSeatStatus() {
         System.out.println("*********좌석 현황*********");
-        for (int i = 0; i < reservation.getROW(); i++) {
-            for (int j = 0; j < reservation.getCOL(); j++) {
-                if (reservation.isReservation(i, j)) {
+        for (int i = 0; i < reservationService.getROW(); i++) {
+            for (int j = 0; j < reservationService.getCOL(); j++) {
+                if (reservationService.isReservation(i, j)) {
                     System.out.print("[" + (i + 1) + "-" + (j + 1) + "]"); // 최적화하기
                 } else {
                     System.out.print("[예매]");
@@ -138,7 +138,7 @@ public class ReservationUI {
      * 해당 예약 번호(키)로 예약된 좌석명 출력 메서드
      */
     public void printReservedSeat(int key) {
-        System.out.println("고객님이 예매하신 좌석은 " + reservation.getReservedSeat(key) + "입니다.");
+        System.out.println("고객님이 예매하신 좌석은 " + reservationService.getReservedSeat(key) + "입니다.");
     }
 
     private static void printMainOptionMessage() {
