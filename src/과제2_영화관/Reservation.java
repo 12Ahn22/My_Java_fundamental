@@ -13,9 +13,9 @@ import java.util.Random;
 public class Reservation implements ReservationService {
     // 좌석 크기
     @Getter
-    private int row;
+    private final int row;
     @Getter
-    private int col;
+    private final int col;
     private boolean[][] seats; // 좌석에 따른 예약 여부 배열
 
     private Map<Integer, String> reservedSeatInformation = new HashMap<>(); // 예약 번호를 key로 사용하는 예약 정보 map
@@ -91,24 +91,12 @@ public class Reservation implements ReservationService {
      * 예매 번호 중복성 체크해 중복이 아닌 키를 반환하는 메서드
      */
     public int creatReservationCode() {
-        int key = generateRandom8Digit();
+        int key = RandomNumberGenerator.generateRandom8Digit();
         // 만약 생성한 난수가 이미 reservedSeatInformation에 key로 존재한다면,
         // 다시 생성한다.
         while (reservedSeatInformation.containsKey(key)) {
-            key = generateRandom8Digit();
+            key = RandomNumberGenerator.generateRandom8Digit();
         }
         return key;
     }
-
-    /**
-     * 예매 번호 생성 메서드
-     */
-    public int generateRandom8Digit() {
-        Random random = new Random();
-        // 항상 8자리의 랜덤 난수를 생성하기 위한 제한값
-        final int MIN = 10000000;
-        final int MAX = 99999999;
-        return random.nextInt(MAX - MIN + 1) + MIN;
-    }
-
 }
